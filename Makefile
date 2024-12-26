@@ -26,7 +26,8 @@ help:
 	@echo "  max-build         to run a complete dependencies refresh, full build, and docker build/publish"
 	@echo "  autoupdate        to update dependencies"
 	@echo "  forced-update     to force update dependencies (clear Poetry cache)"
-	@echo "  template-update   to run the copier update"
+	@echo "  template-update   to run the copier update (latest template release)"
+	@echo "  template-update-tip   to run the copier update (latest template tip)"
 	@echo "  check-uncommitted to check for uncommitted changes in Git"
 	@echo "  commit-and-tag-release    to commit and tag the release"
 	@echo "  build-and-release-patch   to run the full build and release a patch"
@@ -63,11 +64,13 @@ add-to-git:
 	@git add .
 	@git add --chmod=+x run_scripts/*.sh
 	@git commit -m "Initial commit from Copier template"
+	@git config --global --add safe.directory $(CURDIR)
 	@poetry run pre-commit install
 
 add-to-github:
-	@git remote add origin https://github.com/UpDryTwist/trmnl_tides.git
-	@git push -u origin main
+	@gh repo create trmnl-tides --public --confirm --source=. --remote-origin --push
+#	@git remote add origin https://github.com/UpDryTwist/trmnl-tides.git
+#	@git push -u origin main
 
 first-make: install add-to-git autoupdate full-commit-ready
 
@@ -178,3 +181,6 @@ build-and-release-major: pre-build-and-release-version bump-version-major post-b
 
 template-update:
 	@copier update --trust --defaults --conflict inline
+
+template-update-tip:
+	@copier update --trust --defaults --conflict inline --vcs-ref==HEAD

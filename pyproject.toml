@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "TRMNL Tides"
+version = "0.0.1-dev0"
+description = "TRMNL Tides service for generating a TRMNL screen with local tides data."
+authors = ["UpDryTwist <tathamg@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/UpDryTwist/trmnl_tides"
+documentation = "https://trmnl_tides.readthedocs.io/en/latest/"
+keywords = ["trmnl_tides"]
+homepage = "https://github.com/UpDryTwist/trmnl_tides"
+packages = [ { include = "trmnl_tides", from = "src" } ]
+
+[tool.bandit]
+exclude_dirs = ["tests", "docs", "examples", ".venv", "dist", ".ruff_cache", ".github"]
+
+[tool.creosote]
+venvs = [".venv"]
+paths = ["src", "tests", "utils"]
+deps-file = "pyproject.toml"
+sections = ["tool.poetry.dependencies"]
+
+[tool.codespell]
+ignore-words-list = "TRMNL Tides"
+uri-ignore-words-list = "Classess"
+skip = "pyproject.toml,build,dist,.venv,.git,*.png,*.jpg,*.jpeg,*.gif,*.bmp,*.ico,*.svg,*.pyc,*.pyo,*.pyd,*.so,*.dll,*.dylib,*.exe,*.bin,*.hex,*.obj,*.o,*.a,*.lib,*.dll.a,*.db,*.sqlite,*.sqlite3"
+
+[tool.isort]
+profile = "black"
+
+[tool.pyright]
+venv = ".venv"
+venvPath = "."
+pythonVersion = "3.11"
+# TODO: fix for earlier Python versions
+# Include this if you're feeling you have too much time on your hands
+# typeCheckingMode = "strict"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+poetry = "^1.7.1"
+pytest = ">=7.4.3,<9.0.0"
+pre-commit = "^4.0.1"
+ruff = "^0.8.0"
+black = "^24.10.0"
+make = "^0.1.6.post2"
+codespell = "^2.2.6"
+sphinx = ">=7.2.6,<9.0.0"
+sphinx-rtd-theme = "^3.0.2"
+pyright = "^1.1.390"
+pytest-cov = "^6.0.0"
+bump-my-version = "^0.28.1"
+copier = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

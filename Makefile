@@ -44,7 +44,7 @@ poetry-config:
 	@poetry config virtualenvs.path .venv
 
 system-requirements-install:
-	@winget install rhysd.actionlint koalaman.shellcheck mvdan.shfmt Gitleaks.Gitleaks Thoughtworks.Talisman waterlan.dos2unix
+	@winget install rhysd.actionlint koalaman.shellcheck mvdan.shfmt Gitleaks.Gitleaks Thoughtworks.Talisman waterlan.dos2unix GitHub.cli
 
 install:
 	@poetry install
@@ -68,7 +68,7 @@ add-to-git:
 	@poetry run pre-commit install
 
 add-to-github:
-	@gh repo create trmnl-tides --public --confirm --source=. --remote-origin --push
+	@gh repo create trmnl-tides --public --confirm --source=. --remote origin --push
 #	@git remote add origin https://github.com/UpDryTwist/trmnl-tides.git
 #	@git push -u origin main
 
@@ -183,4 +183,4 @@ template-update:
 	@copier update --trust --defaults --conflict inline
 
 template-update-tip:
-	@copier update --trust --defaults --conflict inline --vcs-ref==HEAD
+	@copier update --trust --defaults --conflict inline --vcs-ref=HEAD

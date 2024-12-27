@@ -120,3 +120,6 @@ select = [
     # Ruff-specific
     "RUF",
 ]
+
+[lint.per-file-ignores]
+"tests/*.py" = ["S101"]

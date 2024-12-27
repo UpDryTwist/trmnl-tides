@@ -50,7 +50,7 @@ install:
 	@poetry install
 	@poetry update
 
-autoupdate:  template-update
+autoupdate:
 	@poetry run pre-commit autoupdate
 	@poetry update
 

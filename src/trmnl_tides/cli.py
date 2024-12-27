@@ -3,16 +3,19 @@
 # You might be tempted to import things from `__main__` later,
 # but that will cause problems: the code will get executed twice:
 #
-# - When you run `python -m my_awesome_project` python will execute
+# - When you run `python -m trmnl_tides` python will execute
 #   `__main__.py` as a script. That means there won't be any
-#   `my_awesome_project.__main__` in `sys.modules`.
+#   `trmnl_tides.__main__` in `sys.modules`.
 # - When you import `__main__` it will get executed again (as a module) because
-#   there's no `my_awesome_project.__main__` in `sys.modules`.
+#   there's no `trmnl_tides.__main__` in `sys.modules`.
 """Module that contains the command line application."""
 
 from __future__ import annotations
 
 import argparse
+import sys
+
+from .tides_data import NoaaTideData
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -22,14 +25,14 @@ def get_parser() -> argparse.ArgumentParser:
     Returns:
         An argparse parser.
     """
-    return argparse.ArgumentParser(prog="my-awesome-project")
+    return argparse.ArgumentParser(prog="trmnl-tides")
 
 
 def main(args: list[str] | None = None) -> int:
     """
     Run the main program.
 
-    This function is executed when you type `my-awesome-project` or `python -m my_awesome_project`.
+    This function is executed when you type `trmnl_tides` or `python -m trmnl_tides`.
 
     Arguments:
         args: Arguments passed from the command line.
@@ -38,6 +41,12 @@ def main(args: list[str] | None = None) -> int:
         An exit code.
     """
     parser = get_parser()
-    opts = parser.parse_args(args=args)
-    print(opts)  # noqa: T201
+    _opts = parser.parse_args(args=args)
+    tides = NoaaTideData("9447130")
+    tides.read_data()
+    print(tides)  # noqa: T201
     return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

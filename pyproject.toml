@@ -11,6 +11,9 @@ keywords = ["trmnl_tides"]
 homepage = "https://github.com/UpDryTwist/trmnl_tides"
 packages = [ { include = "trmnl_tides", from = "src" } ]
 
+[lint.per-file-ignores]
+"tests/*.py" = ["S101"]
+
 [tool.bandit]
 exclude_dirs = ["tests", "docs", "examples", ".venv", "dist", ".ruff_cache", ".github"]
 
@@ -38,6 +41,7 @@ pythonVersion = "3.11"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
+noaa_coops = "^0.4.0"
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.7.1"
@@ -52,7 +56,7 @@ sphinx-rtd-theme = "^3.0.2"
 pyright = "^1.1.390"
 pytest-cov = "^6.0.0"
 bump-my-version = "^0.28.1"
-copier = "^6.0.0"
+copier = "^9.4.1"
 
 [build-system]
 requires = ["poetry-core"]

@@ -154,13 +154,13 @@ virtualenv = ["virtualenv (>=20.0.35)"]
 
 [[package]]
 name = "bump-my-version"
-version = "0.28.3"
+version = "0.30.0"
 description = "Version bump your Python project"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "bump_my_version-0.28.3-py3-none-any.whl", hash = "sha256:d853bf0e92bf83beed88e129b9cb7e20eeacc87617bf4a7c2d78f6154cf2ba16"},
-    {file = "bump_my_version-0.28.3.tar.gz", hash = "sha256:37086aaae3e1a0ffcfa82111cf271850d5ffbe1997a17b1630f2437d8a9a5160"},
+    {file = "bump_my_version-0.30.0-py3-none-any.whl", hash = "sha256:b0d683a1cb97fbc2f46adf8eb39ff1f0bdd72866c3583fe01f9837d6f031e5e3"},
+    {file = "bump_my_version-0.30.0.tar.gz", hash = "sha256:d53e784c73abc4bb5759e296f510bc71878e1df078eb525542ec9291b5ceb195"},
 ]
 
 [package.dependencies]
@@ -2787,4 +2787,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<4.0"
-content-hash = "04196e68ac6aead8147a0e09ab9ec7c1692e7b6693c23391d8cec8b5e284d8ba"
+content-hash = "8f159b9710c7400d4fc8257d8d0a70b5cbb9b259f87054cc5f5ce1d509b68966"

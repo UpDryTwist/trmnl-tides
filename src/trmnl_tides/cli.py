@@ -16,6 +16,9 @@ import argparse
 import sys
 
 from .tides_data import NoaaTideData
+from .weather_data import NoaaWeatherData
+
+DEFAULT_STATION_ID = "8725520"  # Fort Myers, FL
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -42,9 +45,12 @@ def main(args: list[str] | None = None) -> int:
     """
     parser = get_parser()
     _opts = parser.parse_args(args=args)
-    tides = NoaaTideData("9447130")
+    tides = NoaaTideData(DEFAULT_STATION_ID)
+    weather = NoaaWeatherData(DEFAULT_STATION_ID)
     tides.read_data()
     print(tides)  # noqa: T201
+    weather.read_data()
+    print(weather)  # noqa: T201
     return 0
 
 

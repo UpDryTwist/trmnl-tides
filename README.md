@@ -15,6 +15,9 @@ TRMNL Tides service for generating a TRMNL screen with local tides data.
 
 ## Usage
 
+## Station ID
+You can find your station ID here:  https://tidesandcurrents.noaa.gov/
+
 ### Using a container
 
 You can build a Docker container to run this. Build using "make docker-build".
@@ -23,3 +26,13 @@ You can build a Docker container to run this. Build using "make docker-build".
 ## Roadmap
 
 ## Credits and Sources
+
+Water Temp: 67.1 ° F
+
+Air Temp: 70.9 ° F
+
+Barometric Pressure: 1019.0 mb
+
+Winds: 7.0 kts from NE
+
+Gusting to: 10.1 kts from NE

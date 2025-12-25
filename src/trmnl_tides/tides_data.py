@@ -2,10 +2,15 @@
 
 from __future__ import annotations
 
-from datetime import date, time, timedelta
+import os
 from enum import Enum
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import noaa_coops
+
+
+CURRENT_TIMEZONE = "America/New_York"
 
 
 class TidePhase(Enum):
@@ -41,6 +46,16 @@ class TideDataPoint:
         """Render simple string representation of the data point."""
         return f"{self.tide_date} {self.tide_time} {self.height} {self.tide_phase}"
 
+    def json(self) -> dict[str, str]:
+        """Return a JSON representation of the data point."""
+        return {
+            "tide_date": self.tide_date,
+            "tide_time": self.tide_time,
+            "height": self.height,
+            "location_id": self.location_id,
+            "tide_phase": self.tide_phase,
+        }
+
 
 class TideData:
     """Collection of TideDataPoint objects."""
@@ -48,6 +63,8 @@ class TideData:
     def __init__(self) -> None:
         """Initialize the collection."""
         self.data = []
+        self.next_low_tide = None
+        self.next_high_tide = None
 
     def add_data_point(self, data_point: TideDataPoint) -> None:
         """Add a data point to the collection."""
@@ -56,6 +73,10 @@ class TideData:
     def __str__(self) -> str:
         """Render simple string representation of the data."""
         return "\n".join(str(data_point) for data_point in self.data)
+
+    def json(self) -> list[dict[str, str]]:
+        """Return a JSON representation of the data."""
+        return [data_point.json() for data_point in self.data]
 
 
 class NoaaTideData(TideData):
@@ -92,10 +113,12 @@ class NoaaTideData(TideData):
 
     def read_data(self) -> None:
         """Read data from NOAA."""
+        self.next_low_tide = None
+        self.next_high_tide = None
         station = noaa_coops.Station(self.location_id)
         data = station.get_data(
-            begin_date=date.today().strftime("%Y%m%d"),  # noqa: DTZ011
-            end_date=(date.today() + timedelta(days=1)).strftime("%Y%m%d"),  # noqa: DTZ011
+            begin_date=datetime.now(ZoneInfo(os.environ.get("TZ", CURRENT_TIMEZONE))).strftime("%Y%m%d %H:%M"),  # noqa: DTZ011
+            end_date=(datetime.now(ZoneInfo(os.environ.get("TZ", CURRENT_TIMEZONE))) + timedelta(days=1)).strftime("%Y%m%d %H:%M"),  # noqa: DTZ011
             product="predictions",
             datum="MLLW",
             units="english",
@@ -109,4 +132,9 @@ class NoaaTideData(TideData):
             data_point = TideDataPoint(tide_date, tide_time, height, self.location_id)
             self.add_data_point(data_point)
             self.set_tide_phase(last_data_point, data_point)
+            if last_data_point:
+                if last_data_point.tide_phase == TidePhase.LOW and not self.next_low_tide:
+                    self.next_low_tide = last_data_point
+                elif last_data_point.tide_phase == TidePhase.HIGH and not self.next_high_tide:
+                    self.next_high_tide = last_data_point
             last_data_point = data_point
